@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | Zickers</title>
+    <link rel="stylesheet" href="styles/login.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo"><img src="assets/logo.png"></a>
+    </header>
+
+    <div class="login-container doodle-border">
+        <h1>Log in to your <span class="doodle-underline">Zickers</span> account</h1>
+        
+        <form id="loginForm">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" placeholder="Enter your @email" required>
+            </div>
+            
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="login-btn">Log In</button>
+        </form>
+        
+        <div class="divider">or</div>
+        
+        <div class="social-login">
+            <div class="social-btn">G</div>
+            <div class="social-btn">Fb</div>
+            <div class="social-btn">A</div>
+        </div>
+        
+        <p class="signup-link">Don't have an account? <a href="#">Sign up</a></p>
+    </div>
+
+    <script src="js/login.js"defer></script>
+</body>
+</html>

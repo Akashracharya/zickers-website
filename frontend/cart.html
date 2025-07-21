@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart | Zickers</title>
+    <link rel="stylesheet" href="styles/cart.css">
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo"><img src="assets/logo.png" id="logo-img"></a> <div class="nav-buttons">
+            <button class="nav-btn shop-btn continue-shopping-btn">Continue Shopping</button>
+            <button class="nav-btn logout-btn">Logout</button>
+            </div>
+    </header>
+
+    <main>
+        <h1 class="cart-title">Your <span class="doodle-underline">Sticker</span> Cart</h1>
+
+        <div class="cart-container">
+            <div class="cart-items">
+                </div>
+
+            <div class="cart-summary doodle-border">
+                <h2 class="summary-title">Order Summary</h2>
+                <div class="summary-row">
+                    <strong>Subtotal</strong>
+                    <span class="cart-subtotal-price" id="cart-subtotal-price">$0.00</span>
+                </div>
+                <div class="summary-row">
+                    <strong>Shipping</strong>
+                    <span id="cart-shipping-price">FREE</span> </div>
+                <div class="summary-row">
+                    <strong>Tax</strong>
+                    <span id="cart-tax-price">$0.00</span> </div>
+                <div class="summary-row summary-total">
+                    <strong class="cart-total-title">Total</strong>
+                    <span class="cart-total-price" id="cart-total-price">$0.00</span>
+                </div>
+                <button class="checkout-btn doodle-btn">Checkout Now</button>
+            </div>
+        </div>
+
+        </main>
+
+    <footer>
+    </footer>
+
+    <script src="js/cart.js" defer></script>
+    </body>
+</html>
