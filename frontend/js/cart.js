@@ -1,13 +1,5 @@
-// js/cart.js
+let cart = []; 
 
-let cart = []; // Initialize the cart array, this will hold your actual cart data
-
-// --- Cart Utility Functions ---
-
-/**
- * Loads the cart data from localStorage.
- * If no cart data is found, initializes an empty array.
- */
 function loadCart() {
     try {
         const storedCart = localStorage.getItem('zickersCart');
@@ -19,9 +11,7 @@ function loadCart() {
     }
 }
 
-/**
- * Saves the current cart array to localStorage.
- */
+
 function saveCart() {
     try {
         localStorage.setItem('zickersCart', JSON.stringify(cart));
@@ -31,61 +21,44 @@ function saveCart() {
     }
 }
 
-/**
- * Adds a sticker to the cart.
- * If the sticker already exists, it increments its quantity.
- * @param {object} sticker - The sticker object to add (id, name, price, image).
- */
 function addStickerToCart(sticker) {
     const existingItem = cart.find(item => item.id === sticker.id);
 
     if (existingItem) {
         existingItem.quantity = (existingItem.quantity || 1) + 1; // Increment quantity
-        //alert(`${sticker.name} quantity updated in cart!`);
+
     } else {
-        sticker.quantity = 1; // Initialize quantity for new item
+        sticker.quantity = 1; 
         cart.push(sticker);
-        //alert(`Added ${sticker.name} to your cart!`);
+      
     }
-    saveCart(); // Save the updated cart to localStorage
-    updateCartCountDisplay(); // Update the cart count in the header
+    saveCart(); 
+    updateCartCountDisplay(); 
 }
 
-/**
- * Removes a sticker from the cart based on its ID.
- * @param {number} stickerId - The ID of the sticker to remove.
- */
+
 function removeStickerFromCart(stickerId) {
     const initialCartLength = cart.length;
     cart = cart.filter(item => item.id !== stickerId);
-    if (cart.length < initialCartLength) { // Check if an item was actually removed
-        saveCart(); // Save updated cart
-        displayCartItems(); // Re-render cart on cart.html to reflect removal
-        updateCartCountDisplay(); // Update cart count in header
-        //alert('Item removed from cart!');
+    if (cart.length < initialCartLength) {
+        saveCart(); 
+        displayCartItems(); 
+        updateCartCountDisplay(); 
+       
     }
 }
 
-/**
- * Updates the quantity of a sticker in the cart.
- * @param {number} stickerId - The ID of the sticker to update.
- * @param {number} newQuantity - The new quantity for the sticker.
- */
 function updateStickerQuantity(stickerId, newQuantity) {
     const item = cart.find(item => item.id === stickerId);
     if (item) {
-        item.quantity = Math.max(1, parseInt(newQuantity) || 1); // Ensure quantity is at least 1
+        item.quantity = Math.max(1, parseInt(newQuantity) || 1); 
         saveCart();
-        displayCartItems(); // Re-render cart to update totals and display
+        displayCartItems(); 
         updateCartCountDisplay();
     }
 }
 
-// --- Cart Display Functions (Primarily for cart.html) ---
 
-/**
- * Renders the cart items and summary on the cart.html page.
- */
 function displayCartItems() {
     console.log("displayCartItems function called.");
     const cartItemsContainer = document.querySelector('.cart-items');
@@ -95,20 +68,20 @@ function displayCartItems() {
     console.log("cartItemsContainer:", cartItemsContainer);
     console.log("cartSummaryContainer:", cartSummaryContainer);
 
-    // Exit if not on the cart page (elements not found)
+   
     if (!cartItemsContainer || !cartSummaryContainer) {
         console.warn("Cart display elements not found on this page. Exiting displayCartItems.");
         return;
     }
 
-    // Clear previous items and hide summary initially
+    
     cartItemsContainer.innerHTML = '';
-    cartSummaryContainer.style.display = 'none'; // Hide summary by default
+    cartSummaryContainer.style.display = 'none'; 
     if (emptyCartMessageDiv) emptyCartMessageDiv.style.display = 'none';
 
     if (cart.length === 0) {
         console.log("Cart is empty. Displaying empty cart message.");
-        // Show empty cart message within the .cart-items container
+       
         cartItemsContainer.innerHTML = `
             <div class="empty-cart-content doodle-border">
                 <p class="first-text">Your cart is feeling lonely 😢</p>
@@ -116,22 +89,22 @@ function displayCartItems() {
                 <button class="doodle-btn empty-cart-browse-btn">Browse Stickers</button>
             </div>
         `;
-        cartSummaryContainer.style.display = 'none'; // Ensure summary is hidden
+        cartSummaryContainer.style.display = 'none'; 
          const browseBtn = cartItemsContainer.querySelector('.empty-cart-browse-btn');
         if (browseBtn) {
             browseBtn.addEventListener('click', function() {
                 window.location.href = 'index.html';
             });}
-        attachContinueShoppingListener(); // Re-attach listener for the new "Browse Stickers" button
-        return; // Exit here, no items to display or totals to calculate
+        attachContinueShoppingListener(); 
+        return; 
     }
 
-    // If cart is NOT empty:
+  
     console.log("Cart has items. Populating cart items and summary.");
     let subtotal = 0;
     cart.forEach(item => {
         const cartItemDiv = document.createElement('div');
-        cartItemDiv.className = 'cart-item doodle-border'; // Match your HTML structure
+        cartItemDiv.className = 'cart-item doodle-border'; 
         cartItemDiv.innerHTML = `
             <img src="${item.image}" alt="${item.name}" class="cart-item-img doodle-border">
             <div class="cart-item-details">
@@ -149,25 +122,21 @@ function displayCartItems() {
         subtotal += item.price * item.quantity;
     });
 
-    // Calculate totals for summary
-    const shipping = 0; // Assuming free shipping for now
-    const taxRate = 0.10; // 10% tax
+  
+    const shipping = 0; 
+    const taxRate = 0.10; 
     const tax = subtotal * taxRate;
     const total = subtotal + shipping + tax;
 
-    // Update summary section - MAKE SURE THESE IDs MATCH YOUR cart.html EXACTLY
+
     console.log("Updating summary prices.");
     document.getElementById('cart-subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
     document.getElementById('cart-shipping-price').textContent = `$${shipping.toFixed(2)}`;
     document.getElementById('cart-tax-price').textContent = `$${tax.toFixed(2)}`;
     document.getElementById('cart-total-price').textContent = `$${total.toFixed(2)}`;
 
-    cartSummaryContainer.style.display = 'block'; // Show summary if cart has items
+    cartSummaryContainer.style.display = 'block';
 
-    // --- Attach Event Listeners to Dynamically Created Elements ---
-    // This is crucial because elements are re-created every time displayCartItems runs.
-
-    // Remove item buttons
     document.querySelectorAll('.remove-item').forEach(button => {
         button.addEventListener('click', function(e) {
             const stickerId = parseInt(e.target.getAttribute('data-id'));
@@ -175,7 +144,7 @@ function displayCartItems() {
         });
     });
 
-    // Quantity input changes
+   
     document.querySelectorAll('.quantity-input').forEach(input => {
         input.addEventListener('change', function(e) {
             const stickerId = parseInt(e.target.getAttribute('data-id'));
@@ -184,7 +153,7 @@ function displayCartItems() {
         });
     });
 
-    // Plus/Minus quantity buttons
+   
     document.querySelectorAll('.quantity-btn').forEach(button => {
         button.addEventListener('click', function(e) {
             const stickerId = parseInt(e.target.getAttribute('data-id'));
@@ -201,10 +170,7 @@ function displayCartItems() {
     });
 }
 
-/**
- * Updates a visual cart count (e.g., in the header)
- * Assumes an element with id="cart-count" exists.
- */
+
 function updateCartCountDisplay() {
     const cartCountElement = document.getElementById('cart-count');
     if (cartCountElement) {
@@ -214,20 +180,17 @@ function updateCartCountDisplay() {
     }
 }
 
-// --- Page Specific Event Listeners and Initial Load ---
-
-// Listen for the custom 'addToCart' event dispatched from index.js
 document.addEventListener('addToCart', function(event) {
-    const stickerToAdd = event.detail; // The sticker object passed from index.js
+    const stickerToAdd = event.detail;
     if (stickerToAdd) {
         addStickerToCart(stickerToAdd);
     }
 });
 
-// Load the cart from localStorage when cart.js is first loaded
+
 loadCart();
 
-// Attaches event listener for the "Continue Shopping" button (used on cart.html and empty cart state)
+
 function attachContinueShoppingListener() {
     const continueShoppingBtn = document.querySelector('.continue-shopping-btn');
     if (continueShoppingBtn) {
@@ -237,20 +200,20 @@ function attachContinueShoppingListener() {
     }
 }
 
-// When the DOM is fully loaded, perform initial setup based on the current page
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOMContentLoaded fired in cart.js.");
-    // Check if we are on cart.html (by checking for its specific elements)
+
     if (document.querySelector('.cart-items') && document.querySelector('.cart-summary')) {
         console.log("Cart display elements found on cart.html. Calling displayCartItems.");
-        displayCartItems(); // Display cart items if on cart page
+        displayCartItems(); 
     } else {
         console.log("Cart display elements NOT found on this page. Likely not cart.html.");
     }
-    // Always update the cart count in the header on any page load where cart.js is included
+    
     updateCartCountDisplay();
 
-    // Attach event listener for the "Checkout Now" button on cart.html
+   
     const checkoutBtn = document.querySelector('.checkout-btn');
     if (checkoutBtn) {
         checkoutBtn.addEventListener('click', function() {
@@ -262,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Attach logout listener for cart.html if present
+   
     const logoutBtn = document.querySelector('.logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function() {
@@ -271,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Attach 'Continue Shopping' listener (for header button if it exists)
+   
     attachContinueShoppingListener();
 });
 
