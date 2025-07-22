@@ -4,7 +4,7 @@
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
             
-            // Simple validation
+      
             if (!email.includes('@')) {
                 alert('Please enter a valid email address');
                 return;
@@ -14,20 +14,14 @@
                 alert('Password must be at least 6 characters');
                 return;
             }
-            
-            // In a real app, you would send this to your server
             console.log('Login attempt with:', { email, password });
             
-            // Show success message
-            //alert('Login successful! Redirecting to your dashboard...');
-            
-            // Redirect to home page after login
+           
             setTimeout(() => {
                 window.location.href = 'index.html';
             }, 1000);
         });
-        
-        // Social login buttons
+   
         document.querySelectorAll('.social-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const provider = this.textContent === 'G' ? 'Google' : 
@@ -36,9 +30,9 @@
             });
         });
         
-        // Add some doodle-style elements dynamically
+      
         document.addEventListener('DOMContentLoaded', function() {
-            // Create some random doodle elements
+          
             for (let i = 0; i < 5; i++) {
                 const doodle = document.createElement('div');
                 doodle.style.position = 'fixed';
@@ -59,9 +53,8 @@
   e.preventDefault();
   
   const email = document.getElementById('email').value;
-  const username = email.split('@')[0]; // Create username from email
-  
-  // Create mock user data
+  const username = email.split('@')[0];
+
   const user = {
     id: 'user-' + Math.random().toString(36).substring(2, 9),
     email: email,
@@ -70,9 +63,9 @@
     lastLogin: new Date().toLocaleString()
   };
   
-  // Save to browser storage
+
   localStorage.setItem('zickersUser', JSON.stringify(user));
   
-  // Redirect to personalized homepage
+
   window.location.href = 'index.html';
 });
