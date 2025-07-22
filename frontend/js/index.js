@@ -1,6 +1,3 @@
-// js/index.js
-
-// Sample sticker data - Keep this here as index.js needs it to display products
 const stickers = [
     { id: 1, name: "Nos", price: 4.99, image: "https://www.stickitup.xyz/cdn/shop/products/1l0E6sE8ISYlqIGugx2aMFJmUmRKUlO0a.jpg?v=1736848719&width=533" },
     { id: 2, name: "Just Chill", price: 3.99, image: "https://i.postimg.cc/mrdRH9Pp/just-chill.jpg" },
@@ -12,7 +9,7 @@ const stickers = [
     { id: 8, name: "Nasa", price: 5.49, image: "https://i.postimg.cc/0yn1TS05/NASA-Logo-Sticker.jpg" }
 ];
 
-// Generate sticker cards on page load
+
 document.addEventListener('DOMContentLoaded', function() {
     const stickerGrid = document.querySelector('.sticker-grid');
 
@@ -29,19 +26,19 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Main event listener for clicks throughout the document
+
 document.addEventListener('click', function(e) {
-    // --- Add to Cart button logic ---
+    
     if (e.target.classList.contains('add-to-cart')) {
         const stickerId = parseInt(e.target.getAttribute('data-id'));
-        const stickerToAdd = stickers.find(s => s.id === stickerId); // Find the full sticker object
+        const stickerToAdd = stickers.find(s => s.id === stickerId); 
 
         if (stickerToAdd) {
-            // Dispatch a custom event for cart.js to handle
+           
             const event = new CustomEvent('addToCart', { detail: stickerToAdd });
             document.dispatchEvent(event);
 
-            // Animation for the button
+          
             e.target.textContent = '✓';
             setTimeout(() => {
                 e.target.textContent = '+';
@@ -49,8 +46,8 @@ document.addEventListener('click', function(e) {
         }
     }
 
-    // --- Navigation and other button logic ---
-    if (e.target.id === 'logo-img') { // Use id for direct targeting
+  
+    if (e.target.id === 'logo-img') {
         location.reload();
     } else if (e.target.classList.contains('login-btn')) {
         window.location.href = "login.html";
@@ -64,7 +61,7 @@ document.addEventListener('click', function(e) {
     }
 });
 
-// Add some doodle-style elements dynamically (keep this as it's visual for index.html)
+
 document.addEventListener('DOMContentLoaded', function() {
     for (let i = 0; i < 5; i++) {
         const doodle = document.createElement('div');
@@ -83,33 +80,27 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Check login state on page load (This logic belongs here for the main page)
+
 window.addEventListener('DOMContentLoaded', function() {
     const userData = localStorage.getItem('zickersUser');
 
-    // If no user data, redirect to login (or show login button)
+  
     if (!userData) {
-        // Option 1: Redirect immediately (if login is mandatory to view products)
-        // window.location.href = 'login.html';
-        // return; // Stop execution if redirecting
-
-        // Option 2: Hide profile, show login button (if products can be browsed without login)
+       
         const loginBtn = document.querySelector('.login-btn');
         if (loginBtn) {
             loginBtn.textContent = 'Login';
-            loginBtn.style.display = 'block'; // Ensure it's visible
+            loginBtn.style.display = 'block'; 
         }
-        const profileContainer = document.querySelector('#user-profile-container'); // Need a container in HTML
+        const profileContainer = document.querySelector('#user-profile-container');
         if (profileContainer) {
             profileContainer.style.display = 'none';
         }
 
     } else {
-        // User is logged in, display profile
+       
         const user = JSON.parse(userData);
         displayUserProfile(user);
-
-        // Hide login button if profile is displayed
         const loginBtn = document.querySelector('.login-btn');
         if (loginBtn) {
             loginBtn.style.display = 'none';
@@ -122,8 +113,8 @@ function displayUserProfile(user) {
     if (!profileContainer) {
         profileContainer = document.createElement('div');
         profileContainer.id = 'user-profile-container';
-        // Append it near your nav buttons, or wherever you want it to appear
-        document.querySelector('header .nav-buttons').prepend(profileContainer); // Added to beginning of nav-buttons
+       
+        document.querySelector('header .nav-buttons').prepend(profileContainer);
     }
 
     profileContainer.innerHTML = `
