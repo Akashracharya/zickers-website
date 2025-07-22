@@ -4,10 +4,10 @@ function loadCart() {
     try {
         const storedCart = localStorage.getItem('zickersCart');
         cart = storedCart ? JSON.parse(storedCart) : [];
-        console.log("Cart loaded:", cart); // For debugging
+        console.log("Cart loaded:", cart);
     } catch (error) {
         console.error("Error loading cart from localStorage:", error);
-        cart = []; // Ensure cart is an empty array on error
+        cart = []; 
     }
 }
 
@@ -15,7 +15,7 @@ function loadCart() {
 function saveCart() {
     try {
         localStorage.setItem('zickersCart', JSON.stringify(cart));
-        console.log("Cart saved:", cart); // For debugging
+        console.log("Cart saved:", cart);
     } catch (error) {
         console.error("Error saving cart to localStorage:", error);
     }
@@ -25,8 +25,7 @@ function addStickerToCart(sticker) {
     const existingItem = cart.find(item => item.id === sticker.id);
 
     if (existingItem) {
-        existingItem.quantity = (existingItem.quantity || 1) + 1; // Increment quantity
-
+        existingItem.quantity = (existingItem.quantity || 1) + 1; 
     } else {
         sticker.quantity = 1; 
         cart.push(sticker);
@@ -63,7 +62,7 @@ function displayCartItems() {
     console.log("displayCartItems function called.");
     const cartItemsContainer = document.querySelector('.cart-items');
     const cartSummaryContainer = document.querySelector('.cart-summary');
-    const emptyCartMessageDiv = document.querySelector('#empty-cart-message'); // Optional
+    const emptyCartMessageDiv = document.querySelector('#empty-cart-message'); 
 
     console.log("cartItemsContainer:", cartItemsContainer);
     console.log("cartSummaryContainer:", cartSummaryContainer);
